@@ -1,11 +1,10 @@
-
 public class Customer {
     
     public void login(){
         
     }
     
-    public void signUP(){
+    public void signUp(){
         
     }
     
