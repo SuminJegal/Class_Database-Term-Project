@@ -8,168 +8,168 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 class DAO {	// Database Access Object
-	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@127.0.0.1:1521:DBSERVER";
-	private static final String USER = "DBUSER";
-	private static final String PASS = "realtime";
-	
-	private static Connection conn = null;
-	private static DatabaseMetaData meta = null;
-	
-	public boolean createConn() {
-		try {
-			Class.forName(DRIVER);
-			System.out.println("[*]	JDBC ë“œë¼ì´ë²„ ë¡œë“œ ì™„ë£Œ.");
-			conn = DriverManager.getConnection(URL, USER, PASS);
-			System.out.println("[*]	ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì† ì™„ë£Œ.");
-		} catch(Exception e) {
-			System.out.println("[*]	ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì† ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public Connection getConn() {
-		return conn;
-	}
-	
-	public boolean insert(Connection conn, String query) {
-		try {
-			Statement stmt = conn.createStatement();
-			int rowCount = stmt.executeUpdate(query);
-			if(rowCount == 0) {
-				System.out.println("ë°ì´í„° ì‚½ì… ì‹¤íŒ¨");
-				return false;
-			} else {
-				System.out.println("ë°ì´í„° ì‚½ì… ì„±ê³µ");
-			}
-		} catch (Exception e) {
-			System.out.println("[*]	INSERT ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		return true;
-	}
-	
-	public ResultSet select(Connection conn, String query) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		ResultSetMetaData rsMeta = null;
-		
-		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(query);
-			rsMeta = rs.getMetaData();
-			
-			// ì§ˆì˜ ê²°ê³¼ ë©”íƒ€ ì •ë³´ ì¶”ì¶œ
-			for(int col = 1; col <= rsMeta.getColumnCount(); col++) {
-				int type = rsMeta.getColumnType(col);
-				String typeName = rsMeta.getColumnTypeName(col);
-				String name = rsMeta.getColumnName(col);
-				System.out.println(col + "st column " + name + 
-						" is JDBC type " + type + " which is called " + typeName);
-			}
-			
-			// ì§ˆì˜ ê²°ê³¼ ë°˜í™˜
-			return rs;
-		} catch (Exception e) {
-			System.out.println("[*]	SELECT ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		return rs;
-	}
-	
-	public boolean updateBranch(Connection conn, String branch_number, int asset) {
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(
-					"UPDATE BRANCH SET ASSETS = ? WHERE BRANCH_NUMBER = ?");
-			
-			pstmt.setInt(1, asset);
-			pstmt.setString(2, branch_number);
-			
-			int rowCount = pstmt.executeUpdate();
-			if(rowCount == 0) {
-				System.out.println("ë°ì´í„° ìˆ˜ì • ì‹¤íŒ¨");
-			} else {
-				System.out.println("ë°ì´í„° ìˆ˜ì • ì„±ê³µ");
-			}
-		} catch (Exception e) {
-			System.out.println("[*]	UPDATE ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		return true;
-	}
-	
-	public boolean delete(Connection conn, String query) {
-		try {
-			Statement stmt = conn.createStatement();
-			int rowCount = stmt.executeUpdate(query);
-			if(rowCount == 0) {
-				System.out.println("ë°ì´í„° ì‚­ì œ ì‹¤íŒ¨");
-				return false;
-			} else {
-				System.out.println("ë°ì´í„° ì‚­ì œ ì„±ê³µ");
-			}
-		} catch (Exception e) {
-			System.out.println("[*]	DELETE ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		return true;
-	}
-	
-	public DatabaseMetaData getDBMD(Connection conn) {
-		try {
-			meta = conn.getMetaData();
-		} catch (Exception e) {
-			System.out.println("[*]	DBMD ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		return meta;
-	}
+    private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private static final String URL = "jdbc:oracle:thin:@127.0.0.1:1521:DBSERVER";
+    private static final String USER = "DBUSER";
+    private static final String PASS = "realtime";
+    
+    private static Connection conn = null;
+    private static DatabaseMetaData meta = null;
+    
+    public boolean createConn() {
+        try {
+            Class.forName(DRIVER);
+            System.out.println("[*] JDBC µå¶óÀÌ¹ö ·Îµå ¿Ï·á.");
+            conn = DriverManager.getConnection(URL, USER, PASS);
+            System.out.println("[*] µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó ¿Ï·á.");
+        } catch(Exception e) {
+            System.out.println("[*] µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó ¿À·ù ¹ß»ı: \n" + e.getMessage());
+            return false;
+        }
+        
+        return true;
+    }
+    
+    public Connection getConn() {
+        return conn;
+    }
+    
+    public boolean insert(Connection conn, String query) {
+        try {
+            Statement stmt = conn.createStatement();
+            int rowCount = stmt.executeUpdate(query);
+            if(rowCount == 0) {
+                System.out.println("µ¥ÀÌÅÍ »ğÀÔ ½ÇÆĞ");
+                return false;
+            } else {
+                System.out.println("µ¥ÀÌÅÍ »ğÀÔ ¼º°ø");
+            }
+        } catch (Exception e) {
+            System.out.println("[*] INSERT ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        return true;
+    }
+    
+    public ResultSet select(Connection conn, String query) {
+        Statement stmt = null;
+        ResultSet rs = null;
+        ResultSetMetaData rsMeta = null;
+        
+        try {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            rsMeta = rs.getMetaData();
+            
+            // ÁúÀÇ °á°ú ¸ŞÅ¸ Á¤º¸ ÃßÃâ
+            for(int col = 1; col <= rsMeta.getColumnCount(); col++) {
+                int type = rsMeta.getColumnType(col);
+                String typeName = rsMeta.getColumnTypeName(col);
+                String name = rsMeta.getColumnName(col);
+                System.out.println(col + "st column " + name + 
+                        " is JDBC type " + type + " which is called " + typeName);
+            }
+            
+            // ÁúÀÇ °á°ú ¹İÈ¯
+            return rs;
+        } catch (Exception e) {
+            System.out.println("[*] SELECT ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        return rs;
+    }
+    
+    public boolean updateBranch(Connection conn, String branch_number, int asset) {
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(
+                    "UPDATE BRANCH SET ASSETS = ? WHERE BRANCH_NUMBER = ?");
+            
+            pstmt.setInt(1, asset);
+            pstmt.setString(2, branch_number);
+            
+            int rowCount = pstmt.executeUpdate();
+            if(rowCount == 0) {
+                System.out.println("µ¥ÀÌÅÍ ¼öÁ¤ ½ÇÆĞ");
+            } else {
+                System.out.println("µ¥ÀÌÅÍ ¼öÁ¤ ¼º°ø");
+            }
+        } catch (Exception e) {
+            System.out.println("[*] UPDATE ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        return true;
+    }
+    
+    public boolean delete(Connection conn, String query) {
+        try {
+            Statement stmt = conn.createStatement();
+            int rowCount = stmt.executeUpdate(query);
+            if(rowCount == 0) {
+                System.out.println("µ¥ÀÌÅÍ »èÁ¦ ½ÇÆĞ");
+                return false;
+            } else {
+                System.out.println("µ¥ÀÌÅÍ »èÁ¦ ¼º°ø");
+            }
+        } catch (Exception e) {
+            System.out.println("[*] DELETE ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        return true;
+    }
+    
+    public DatabaseMetaData getDBMD(Connection conn) {
+        try {
+            meta = conn.getMetaData();
+        } catch (Exception e) {
+            System.out.println("[*] DBMD ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        return meta;
+    }
 }
 
 public class Main {
-	private static Connection conn = null;			// ì»¤ë„¥ì…˜ ì •ë³´ ì €ì¥ ê°ì²´
-	private static DatabaseMetaData meta = null;	// ë°ì´í„°ë² ì´ìŠ¤ ë©”íƒ€ì •ë³´ ì €ì¥ ê°ì²´
-	
-	public static void main(String[] args) {
-		DAO dao = new DAO();		// Database Access Object ìƒì„±
-		dao.createConn();			// ë°ì´í„°ë² ì´ìŠ¤ì™€ ì—°ê²° ìˆ˜ë¦½
-		conn = dao.getConn();		// ë°ì´í„°ë² ì´ìŠ¤ ì—°ê²° ì •ë³´ ì·¨ë“
-		
-		meta = dao.getDBMD(conn);	// ë°ì´í„°ë² ì´ìŠ¤ ë©”íƒ€ì •ë³´ ì·¨ë“
-		try {
-			System.out.println(meta.getTimeDateFunctions());
-			System.out.println(meta.getUserName());
-		} catch (Exception e) {
-			System.out.println("[*]	ë©”íƒ€ì •ë³´ ì¶œë ¥ ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		try {
-			String account_number, branch_number;
-			int balance;
-			
-			ResultSet rs = dao.select(conn, "SELECT * FROM ACCOUNT");
-			while(rs.next()) {
-				account_number = rs.getString(1);
-				branch_number = rs.getString(2);
-				balance = rs.getInt(3);
-				System.out.println(account_number + ", " + branch_number + ", " + balance);
-			}
-		} catch (Exception e) {
-			System.out.println("[*]	ì§ˆì˜ ê²°ê³¼ ì¶œë ¥ ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-		
-		dao.insert(conn, "INSERT INTO ACCOUNT VALUES ('A-103', 'B4', 700)");
-		dao.insert(conn, "INSERT INTO ACCOUNT VALUES ('A-555', 'B2', 300)");
-		dao.updateBranch(conn, "B3", 800000);
-		dao.delete(conn, "DELETE FROM ACCOUNT WHERE ACCOUNT_NUMBER = 'A-103'");
-		
-		try {
-			conn.close();	// ì»¤ë„¥ì…˜ ë‹«ê¸°
-			System.out.println("[*]	ë°ì´í„°ë² ì´ìŠ¤ ì ‘ì† ì¢…ë£Œ.");
-		} catch (SQLException e) {
-			System.out.println("[*]	ì˜¤ë¥˜ ë°œìƒ: \n" + e.getMessage());
-		}
-	}
+    private static Connection conn = null;          // Ä¿³Ø¼Ç Á¤º¸ ÀúÀå °´Ã¼
+    private static DatabaseMetaData meta = null;    // µ¥ÀÌÅÍº£ÀÌ½º ¸ŞÅ¸Á¤º¸ ÀúÀå °´Ã¼
+    
+    public static void main(String[] args) {
+        DAO dao = new DAO();        // Database Access Object »ı¼º
+        dao.createConn();           // µ¥ÀÌÅÍº£ÀÌ½º¿Í ¿¬°á ¼ö¸³
+        conn = dao.getConn();       // µ¥ÀÌÅÍº£ÀÌ½º ¿¬°á Á¤º¸ Ãëµæ
+        
+        meta = dao.getDBMD(conn);   // µ¥ÀÌÅÍº£ÀÌ½º ¸ŞÅ¸Á¤º¸ Ãëµæ
+        try {
+            System.out.println(meta.getTimeDateFunctions());
+            System.out.println(meta.getUserName());
+        } catch (Exception e) {
+            System.out.println("[*] ¸ŞÅ¸Á¤º¸ Ãâ·Â ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        try {
+            String account_number, branch_number;
+            int balance;
+            
+            ResultSet rs = dao.select(conn, "SELECT * FROM ACCOUNT");
+            while(rs.next()) {
+                account_number = rs.getString(1);
+                branch_number = rs.getString(2);
+                balance = rs.getInt(3);
+                System.out.println(account_number + ", " + branch_number + ", " + balance);
+            }
+        } catch (Exception e) {
+            System.out.println("[*] ÁúÀÇ °á°ú Ãâ·Â ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+        
+        dao.insert(conn, "INSERT INTO ACCOUNT VALUES ('A-103', 'B4', 700)");
+        dao.insert(conn, "INSERT INTO ACCOUNT VALUES ('A-555', 'B2', 300)");
+        dao.updateBranch(conn, "B3", 800000);
+        dao.delete(conn, "DELETE FROM ACCOUNT WHERE ACCOUNT_NUMBER = 'A-103'");
+        
+        try {
+            conn.close();   // Ä¿³Ø¼Ç ´İ±â
+            System.out.println("[*] µ¥ÀÌÅÍº£ÀÌ½º Á¢¼Ó Á¾·á.");
+        } catch (SQLException e) {
+            System.out.println("[*] ¿À·ù ¹ß»ı: \n" + e.getMessage());
+        }
+    }
 }
