@@ -16,8 +16,8 @@ public class Manager {
     
     private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@127.0.0.1:1521:DBSERVER";
-    private static final String USER = "DBUSER";
-    private static final String PASS = "realtime";
+    private static final String USER = "HEEBIN";
+    private static final String PASS = "heebin";
     
     private static Connection conn = null;
     private static DatabaseMetaData meta = null;
@@ -51,7 +51,24 @@ public class Manager {
     }
 
     public void manageMovie(Connection conn){
-
+        int inputForManageMovie = 0;
+        while(inputForManageMovie != 4){
+            System.out.print("What do you want to do? (1: Upload movie, 2: delete movie, 3: modify movie information, 4: exit)");
+            switch (inputForManageMovie){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break; 
+            default:
+                System.out.println("Wrong input!!!");
+                break;
+            }
+        }
+       
     }
 
     public void manageCinema(Connection conn){

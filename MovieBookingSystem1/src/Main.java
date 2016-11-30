@@ -120,36 +120,41 @@ public class Main {
             inputInCustomer = scanner.nextInt();
             switch (inputInCustomer){
                 case 1:
-                    customer.login(conn);
-                    int inputInLogIn = 0;
-                    while(inputInLogIn!=4 && inputInLogIn!=5){
-                        System.out.print("What do you want to do? (1: booking a movie, 2: search movies, " +
-                                "3: modify your information, 4: secession, 5:log-out : ");
-                        inputInLogIn = scanner.nextInt();
-                        switch (inputInLogIn){
-                            case 1:
-                                customer.bookingMovie(conn);
-                                break;
-                            case 2:
-                                customer.SearchMovie(conn);
-                                break;
-                            case 3:
-                                customer.modifyMyInformation(conn);
-                                break;
-                            case 4:
-                                customer.secession(conn);
-                                break;
-                            case 5:
-                                System.out.println("Complete log out");
-                                break;
-                            default:
-                                System.out.println("Wrong input!!!");
-                                break;
+                    boolean successToLogin = customer.login(conn);
+                    if(successToLogin){
+                        int inputInLogIn = 0;
+                        while(inputInLogIn!=4 && inputInLogIn!=5){
+                            System.out.print("What do you want to do? (1: booking a movie, 2: search movies, " +
+                                    "3: modify your information, 4: secession, 5:log-out : ");
+                            inputInLogIn = scanner.nextInt();
+                            switch (inputInLogIn){
+                                case 1:
+                                    customer.bookingMovie(conn);
+                                    break;
+                                case 2:
+                                    customer.SearchMovie(conn);
+                                    break;
+                                case 3:
+                                    customer.modifyMyInformation(conn);
+                                    break;
+                                case 4:
+                                    customer.secession(conn);
+                                    break;
+                                case 5:
+                                    System.out.println("Complete log out");
+                                    break;
+                                default:
+                                    System.out.println("Wrong input!!!");
+                                    break;
+                            }
                         }
                     }
                     break;
                 case 2:
-                    customer.signUp(conn);
+                    boolean result = false;
+                    while(result == false){
+                        result = customer.signUp(conn);
+                    }
                     break;
                 case 3:
                     break;
@@ -161,3 +166,4 @@ public class Main {
     }
 
 }
+
